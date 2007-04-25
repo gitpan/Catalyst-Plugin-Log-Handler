@@ -1,69 +1,61 @@
 NAME
-
-Catalyst::Plugin::Log::Handler - Catalyst Plugin for Log::Handler
+    Catalyst::Plugin::Log::Handler - Catalyst Plugin for Log::Handler
 
 VERSION
-
-Version 0.01
+    Version 0.02
 
 SYNOPSIS
+        use Catalyst qw(Log::Handler);
 
-    use Catalyst qw(Log::Handler);
+    Catalyst configuration (e. g. in YAML format):
 
-Catalyst configuration (e. g. in YAML format):
-
-    Log::Handler:
-        filename: /var/log/myapp.log
-        fileopen: 1
-        mode: append
-        newline: 1
+        Log::Handler:
+            filename: /var/log/myapp.log
+            fileopen: 1
+            mode: append
+            newline: 1
 
 DESCRIPTION
+    If your Catalyst project logs many messages, logging via standard error
+    to Apache's error log is not very clean: The log messages are mixed with
+    other web applications' noise; and especially if you use mod_fastcgi,
+    every line will be prepended with a long prefix.
 
-If your Catalyst project logs many messages, logging via standard error to
-Apache's error log is not very clean: The log messages are mixed with other web
-applications' noise; and especially if you use mod_fastcgi, every line will be
-prepended with a long prefix.
+    An alternative is logging to a file. But then you have to make sure that
+    multiple processes won't corrupt the log file. The module Log::Handler
+    by Jonny Schulz does exactly this, because it supports message-wise
+    flocking.
 
-An alternative is logging to a file.  But then you have to make sure that
-multiple processes won't corrupt the log file.  The module Log::Handler by
-Jonny Schulz does exactly this, because it supports message-wise flocking.
+    This module is a wrapper for said Log::Handler.
 
-This module is a wrapper for said Log::Handler.
+METHODS
+  debug, info, warn, error, fatal
+    These methods map to the Log::Handler methods with the same name, except
+    for fatal, which maps to emergency. This is because Catalyst and
+    Log::Handler don't use the same names for log levels.
 
-INSTALLATION
+  is_debug, is_info, ...
+    These methods map to the Log::Handler methods would_log_debug,
+    would_log_info, ...
 
-To install this module, run the following commands:
+CONFIGURATION
+    All configuration options are passed verbatim to Log::Handler::new. See
+    Log::Handler for explanation of the options. I think that the example
+    configuration at the beginning of this document is very well-suited for
+    a Catalyst application. (Except for the file name, of course.)
 
-    perl Makefile.PL
-    make
-    make test
-    make install
+    To be consistent with Catalyst::Log, the options minlevel and maxlevel
+    default to 0 and 7, respectively. The other defaults are not touched.
 
+    If you use Catalyst::Plugin::ConfigLoader, please load this module after
+    Catalyst::Plugin::ConfigLoader.
 
-SUPPORT AND DOCUMENTATION
+AUTHOR
+    Christoph Bussenius <pepe(at)cpan.org>.
 
-After installing, you can find documentation for this module with the perldoc command.
+COPYRIGHT
+    Copyright (C) 2007 Christoph Bussenius.
 
-    perldoc Catalyst::Plugin::Log::Handler
+    This program is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
 
-You can also look for information at:
-
-    Search CPAN
-        http://search.cpan.org/dist/Catalyst-Plugin-Log-Handler
-
-    CPAN Request Tracker:
-        http://rt.cpan.org/NoAuth/Bugs.html?Dist=Catalyst-Plugin-Log-Handler
-
-    AnnoCPAN, annotated CPAN documentation:
-        http://annocpan.org/dist/Catalyst-Plugin-Log-Handler
-
-    CPAN Ratings:
-        http://cpanratings.perl.org/d/Catalyst-Plugin-Log-Handler
-
-COPYRIGHT AND LICENCE
-
-Copyright (C) 2007 Christoph Bussenius
-
-This program is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself.

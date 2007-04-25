@@ -1,5 +1,7 @@
 Revision history for Catalyst-Plugin-Log-Handler
 
-0.01    Date/time
-        First version, released on an unsuspecting world.
+0.02    Apr 25 12:23:00 CEST 2007
+        Fixed some dependencies.
 
+0.01    Apr 25 01:00:00 CEST 2007
+        First version, released on an unsuspecting world.

@@ -8,11 +8,11 @@ Catalyst::Plugin::Log::Handler - Catalyst Plugin for Log::Handler
 
 =head1 VERSION
 
-Version 0.01
+Version 0.02
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 use NEXT;
 
@@ -143,5 +143,16 @@ default to 0 and 7, respectively.  The other defaults are not touched.
 
 If you use L<Catalyst::Plugin::ConfigLoader>,
 please load this module after L<Catalyst::Plugin::ConfigLoader>.
+
+=head1 AUTHOR
+
+Christoph Bussenius <pepe(at)cpan.org>.
+
+=head1 COPYRIGHT
+
+Copyright (C) 2007 Christoph Bussenius.
+
+This program is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
 
 =cut
