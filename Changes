@@ -1,5 +1,8 @@
 Revision history for Catalyst-Plugin-Log-Handler
 
+0.05    Apr 25 22:21:11 CEST 2007
+        Removed pm_to_blib, which was accidentally added.
+
 0.04    Apr 25 18:17:17 CEST 2007
         * Make the "handler" method public
         * Fix dependencies

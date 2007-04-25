@@ -1,6 +1,6 @@
 ---
 name: Catalyst-Plugin-Log-Handler
-version: 0.04
+version: 0.05
 author:
   - Christoph Bussenius
 abstract: Catalyst Plugin for Log::Handler
@@ -15,7 +15,7 @@ requires:
 provides:
   Catalyst::Plugin::Log::Handler:
     file: lib/Catalyst/Plugin/Log/Handler.pm
-    version: 0.04
+    version: 0.05
   Catalyst::Plugin::Log::Handler::Backend:
     file: lib/Catalyst/Plugin/Log/Handler.pm
 no_index:
