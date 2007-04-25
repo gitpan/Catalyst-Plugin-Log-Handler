@@ -2,7 +2,7 @@ NAME
     Catalyst::Plugin::Log::Handler - Catalyst Plugin for Log::Handler
 
 VERSION
-    Version 0.03
+    Version 0.04
 
 SYNOPSIS
         use Catalyst qw(Log::Handler);
@@ -14,6 +14,15 @@ SYNOPSIS
             fileopen: 1
             mode: append
             newline: 1
+
+    To log a message:
+
+        $c->log->debug('Greetings from the people of earth');
+        $c->log->info ('This is an info message.');
+        $c->log->warn ('This is the last warning.');
+        $c->log->error('This is an error message.');
+        $c->log->fatal('This is a fatal message.');
+        $c->handler->crit('This is a critical message.');
 
 DESCRIPTION
     If your Catalyst project logs many messages, logging via standard error
@@ -35,9 +44,15 @@ METHODS
     This is because Catalyst and Log::Handler don't use the same names for
     log levels.
 
+    To log a message with a level that is no common Catalyst log level, you
+    can use the handler method (see SYNOPSIS).
+
   is_debug, is_info, ...
     These methods map to the Log::Handler methods would_log_debug,
     would_log_info, ...
+
+  handler
+    Returns the Log::Handler object.
 
 CONFIGURATION
     All configuration options are passed verbatim to Log::Handler::new. See
@@ -46,13 +61,14 @@ CONFIGURATION
     a Catalyst application. (Except for the file name, of course.)
 
     To be consistent with Catalyst::Log, the options minlevel and maxlevel
-    default to 0 and 7, respectively. The other defaults are not touched.
+    default to 0 and 7, respectively, i. e. all messages are logged. The
+    other defaults are not touched.
 
     If you use Catalyst::Plugin::ConfigLoader, please load this module after
     Catalyst::Plugin::ConfigLoader.
 
 AUTHOR
-    Christoph Bussenius <pepe(at)cpan.org>.
+    Christoph Bussenius <pepe(at)cpan.org>
 
 COPYRIGHT
     Copyright (C) 2007 Christoph Bussenius.

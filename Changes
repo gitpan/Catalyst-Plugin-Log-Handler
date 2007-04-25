@@ -1,5 +1,10 @@
 Revision history for Catalyst-Plugin-Log-Handler
 
+0.04    Apr 25 18:17:17 CEST 2007
+        * Make the "handler" method public
+        * Fix dependencies
+        * Add a new test
+
 0.03    Apr 25 13:25:00 CEST 2007
         Map Catalyst's "warn" to Log::Handler's "warning".  Previously it was
         mapped to "warn", but that didn't exist in Log::Handler.

@@ -8,11 +8,11 @@ Catalyst::Plugin::Log::Handler - Catalyst Plugin for Log::Handler
 
 =head1 VERSION
 
-Version 0.03
+Version 0.04
 
 =cut
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 use NEXT;
 
@@ -33,7 +33,7 @@ use warnings;
 use base qw(Class::Accessor::Fast);
 use Log::Handler 0.11;
 
-__PACKAGE__->mk_accessors(qw(_handler));
+__PACKAGE__->mk_accessors(qw(handler));
 
 my %cat_to_handler_level = (
     debug => 'debug',
@@ -53,7 +53,7 @@ my %cat_to_handler_level = (
 	    use strict;
             my $self = shift;
 
-	    $self->_handler->$handlerlevel(@_);
+	    $self->handler->$handlerlevel(@_);
         };
 
 	my $handlerfunc = "would_log_$handlerlevel";
@@ -61,7 +61,7 @@ my %cat_to_handler_level = (
 	    use strict;
             my $self = shift;
 
-	    $self->_handler->$handlerfunc();
+	    $self->handler->$handlerfunc();
         };
     }
 }
@@ -80,7 +80,7 @@ sub new {
     # Log::Handler->new will fail if there's no filename in the conf.  But let's
     # try it anyway to convince the user.
 
-    $self->_handler(Log::Handler->new(
+    $self->handler(Log::Handler->new(
 	minlevel => 0,
 	maxlevel => 7,
 	%$config,
@@ -105,6 +105,15 @@ Catalyst configuration (e. g. in YAML format):
         mode: append
         newline: 1
 
+To log a message:
+
+    $c->log->debug('Greetings from the people of earth');
+    $c->log->info ('This is an info message.');
+    $c->log->warn ('This is the last warning.');
+    $c->log->error('This is an error message.');
+    $c->log->fatal('This is a fatal message.');
+    $c->handler->crit('This is a critical message.');
+
 =head1 DESCRIPTION
 
 If your L<Catalyst> project logs many messages, logging via standard error to
@@ -127,10 +136,17 @@ for fatal, which maps to emergency, and warn, which maps to warning.  This is
 because L<Catalyst> and L<Log::Handler> don't use the same names for log
 levels.
 
+To log a message with a level that is no common Catalyst log level, you can
+use the handler method (see SYNOPSIS).
+
 =head2 is_debug, is_info, ...
 
 These methods map to the L<Log::Handler> methods would_log_debug,
 would_log_info, ...
+
+=head2 handler
+
+Returns the L<Log::Handler> object.
 
 =head1 CONFIGURATION
 
@@ -140,14 +156,15 @@ configuration at the beginning of this document is very well-suited for a
 Catalyst application.  (Except for the file name, of course.)
 
 To be consistent with L<Catalyst::Log>, the options minlevel and maxlevel
-default to 0 and 7, respectively.  The other defaults are not touched.
+default to 0 and 7, respectively, i. e. all messages are logged.  The other
+defaults are not touched.
 
 If you use L<Catalyst::Plugin::ConfigLoader>,
 please load this module after L<Catalyst::Plugin::ConfigLoader>.
 
 =head1 AUTHOR
 
-Christoph Bussenius <pepe(at)cpan.org>.
+Christoph Bussenius <pepe(at)cpan.org>
 
 =head1 COPYRIGHT
 

@@ -10,6 +10,7 @@ WriteMakefile
           'PREREQ_PM' => {
                            'Test::More' => 0,
                            'Class::Accessor' => 0,
+                           'NEXT' => 0,
                            'Log::Handler' => '0.11'
                          }
         )
