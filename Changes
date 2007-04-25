@@ -1,5 +1,9 @@
 Revision history for Catalyst-Plugin-Log-Handler
 
+0.03    Apr 25 13:25:00 CEST 2007
+        Map Catalyst's "warn" to Log::Handler's "warning".  Previously it was
+        mapped to "warn", but that didn't exist in Log::Handler.
+
 0.02    Apr 25 12:23:00 CEST 2007
         Fixed some dependencies.
 

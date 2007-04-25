@@ -2,7 +2,7 @@ NAME
     Catalyst::Plugin::Log::Handler - Catalyst Plugin for Log::Handler
 
 VERSION
-    Version 0.02
+    Version 0.03
 
 SYNOPSIS
         use Catalyst qw(Log::Handler);
@@ -31,8 +31,9 @@ DESCRIPTION
 METHODS
   debug, info, warn, error, fatal
     These methods map to the Log::Handler methods with the same name, except
-    for fatal, which maps to emergency. This is because Catalyst and
-    Log::Handler don't use the same names for log levels.
+    for fatal, which maps to emergency, and warn, which maps to warning.
+    This is because Catalyst and Log::Handler don't use the same names for
+    log levels.
 
   is_debug, is_info, ...
     These methods map to the Log::Handler methods would_log_debug,

@@ -8,11 +8,11 @@ Catalyst::Plugin::Log::Handler - Catalyst Plugin for Log::Handler
 
 =head1 VERSION
 
-Version 0.02
+Version 0.03
 
 =cut
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 use NEXT;
 
@@ -38,7 +38,7 @@ __PACKAGE__->mk_accessors(qw(_handler));
 my %cat_to_handler_level = (
     debug => 'debug',
     info  => 'info',
-    warn  => 'warn',
+    warn  => 'warning',
     error => 'error',
     fatal => 'emergency',
 );
@@ -123,8 +123,9 @@ This module is a wrapper for said L<Log::Handler>.
 =head2 debug, info, warn, error, fatal
 
 These methods map to the L<Log::Handler> methods with the same name, except
-for fatal, which maps to emergency.  This is because L<Catalyst> and
-L<Log::Handler> don't use the same names for log levels.
+for fatal, which maps to emergency, and warn, which maps to warning.  This is
+because L<Catalyst> and L<Log::Handler> don't use the same names for log
+levels.
 
 =head2 is_debug, is_info, ...
 
