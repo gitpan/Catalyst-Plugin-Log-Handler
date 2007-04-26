@@ -1,5 +1,8 @@
 Revision history for Catalyst-Plugin-Log-Handler
 
+0.06    Apr 26 18:11:11 CEST 2007
+        Change dependency for Log::Handler to 0.32
+
 0.05    Apr 25 22:21:11 CEST 2007
         Removed pm_to_blib, which was accidentally added.
 

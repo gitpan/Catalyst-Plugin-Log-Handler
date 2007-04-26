@@ -8,11 +8,11 @@ Catalyst::Plugin::Log::Handler - Catalyst Plugin for Log::Handler
 
 =head1 VERSION
 
-Version 0.05
+Version 0.06
 
 =cut
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 use NEXT;
 
@@ -31,7 +31,7 @@ package Catalyst::Plugin::Log::Handler::Backend;
 use strict;
 use warnings;
 use base qw(Class::Accessor::Fast);
-use Log::Handler 0.11;
+use Log::Handler 0.32;
 
 __PACKAGE__->mk_accessors(qw(handler));
 
