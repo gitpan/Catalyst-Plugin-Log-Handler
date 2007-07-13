@@ -14,7 +14,7 @@ my $build = Module::Build->new(
     requires => {
         'Class::Accessor'  => 0,
         'Test::More'       => 0,
-        'Log::Handler'     => 0.32,
+        'Log::Handler'     => 0.33,
         'NEXT'             => 0,
     },
     recommends         => {},

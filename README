@@ -2,7 +2,7 @@ NAME
     Catalyst::Plugin::Log::Handler - Catalyst Plugin for Log::Handler
 
 VERSION
-    Version 0.06
+    Version 0.07
 
 SYNOPSIS
         use Catalyst qw(Log::Handler);
@@ -69,6 +69,10 @@ CONFIGURATION
 
 AUTHOR
     Christoph Bussenius <pepe(at)cpan.org>
+
+    If you use this module, I'll be glad if you drop me a note. You should
+    mention this module's name (or the short form CPLH) in the subject of
+    your mails, in order to make sure they won't get lost in all the spam.
 
 COPYRIGHT
     Copyright (C) 2007 Christoph Bussenius.

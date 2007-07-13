@@ -8,11 +8,11 @@ Catalyst::Plugin::Log::Handler - Catalyst Plugin for Log::Handler
 
 =head1 VERSION
 
-Version 0.06
+Version 0.07
 
 =cut
 
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 use NEXT;
 
@@ -31,7 +31,7 @@ package Catalyst::Plugin::Log::Handler::Backend;
 use strict;
 use warnings;
 use base qw(Class::Accessor::Fast);
-use Log::Handler 0.32;
+use Log::Handler 0.33;
 
 __PACKAGE__->mk_accessors(qw(handler));
 
@@ -47,22 +47,22 @@ my %cat_to_handler_level = (
 
     while (my ($catlevel, $handlerlevel) = each %cat_to_handler_level) {
 
-	no strict 'refs';
-
-	*{$catlevel} = sub {
-	    use strict;
+	my $logsub = sub {
             my $self = shift;
 
 	    $self->handler->$handlerlevel(@_);
         };
 
-	my $handlerfunc = "would_log_$handlerlevel";
-        *{"is_$catlevel"} = sub {
-	    use strict;
+	my $handlerfunc = "is_$handlerlevel";
+        my $testsub = sub {
             my $self = shift;
 
 	    $self->handler->$handlerfunc();
         };
+
+	no strict 'refs';
+        *{$catlevel}      = $logsub;
+        *{"is_$catlevel"} = $testsub;
     }
 }
 
@@ -165,6 +165,10 @@ please load this module after L<Catalyst::Plugin::ConfigLoader>.
 =head1 AUTHOR
 
 Christoph Bussenius <pepe(at)cpan.org>
+
+If you use this module, I'll be glad if you drop me a note.
+You should mention this module's name (or the short form CPLH) in the subject
+of your mails, in order to make sure they won't get lost in all the spam.
 
 =head1 COPYRIGHT
 

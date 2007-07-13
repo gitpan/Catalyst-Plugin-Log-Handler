@@ -15,6 +15,27 @@ use constant LEVELS => qw(debug info warn error fatal);
 
 $^O =~ /MSWin32/i and plan skip_all => 'This test requires an operating system.';
 
+
+{
+    package Catalyst::Plugin::Log::Handler::Test;
+    use base qw(Class::Accessor::Fast Catalyst::Plugin::Log::Handler);
+
+    __PACKAGE__->mk_accessors(qw(log config));
+}
+
+my $c = Catalyst::Plugin::Log::Handler::Test->new({
+        config => {
+            'Log::Handler' => {
+                filename => \*STDOUT,
+                mode => 'append',
+                newline => 1,
+            },
+        },
+    });
+
+$c->setup();
+
+
 my $pipe;
 
 my $pid = open $pipe, '-|';
@@ -22,25 +43,6 @@ defined $pid or die $!;
 
 unless ($pid) {
     require Catalyst::Plugin::Log::Handler;
-
-    {
-        package Catalyst::Plugin::Log::Handler::Test;
-        use base qw(Class::Accessor::Fast Catalyst::Plugin::Log::Handler);
-
-        __PACKAGE__->mk_accessors(qw(log config));
-    }
-
-    my $c = Catalyst::Plugin::Log::Handler::Test->new({
-            config => {
-                'Log::Handler' => {
-                    filename => \*STDOUT,
-                    mode => 'append',
-                    newline => 1,
-                },
-            },
-        });
-
-    $c->setup();
 
     for my $level (LEVELS) {
         $c->log->$level("This is a $level test message.");
@@ -59,7 +61,7 @@ close $pipe or die "Child exit status: $?\n";
 
 my $numberlevels = () = LEVELS;
 
-plan (tests => 2 + $numberlevels);
+plan (tests => 2 + 2 * $numberlevels);
 
 my $numberlines = () = $logtext =~ /^.+$/gm;
 
@@ -67,4 +69,12 @@ ok (1 + $numberlevels == $numberlines, 'newlines');
 
 for my $level (LEVELS, 'crit') {
     ok($logtext =~ /This is a \Q$level\E test message/, $level);
+}
+
+# For now I don't test that is_stuff actually returns the right thing
+# (especially if some levels are disabled), merely I just want to see
+# if all the dynamic sub generation worked.
+for my $level (LEVELS) {
+    my $is_method = "is_$level";
+    ok($c->log->$is_method, $is_method);
 }
