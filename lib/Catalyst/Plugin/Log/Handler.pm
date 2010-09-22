@@ -8,13 +8,13 @@ Catalyst::Plugin::Log::Handler - Catalyst Plugin for Log::Handler
 
 =head1 VERSION
 
-Version 0.07
+Version 0.07_01 (developer release)
 
 =cut
 
-our $VERSION = '0.07';
+our $VERSION = '0.07_01';
 
-use NEXT;
+use MRO::Compat;
 
 sub setup {
     my $c = shift;
@@ -23,7 +23,7 @@ sub setup {
 
     $c->log((__PACKAGE__ . '::Backend')->new($config));
 
-    return $c->NEXT::setup(@_);
+    return $c->maybe::next::method(@_);
 }
 
 
@@ -31,7 +31,8 @@ package Catalyst::Plugin::Log::Handler::Backend;
 use strict;
 use warnings;
 use base qw(Class::Accessor::Fast);
-use Log::Handler 0.33;
+use Log::Handler 0.63;
+use MRO::Compat;
 
 __PACKAGE__->mk_accessors(qw(handler));
 
@@ -68,7 +69,7 @@ my %cat_to_handler_level = (
 
 sub new {
     my $class = shift;
-    my $self  = $class->SUPER::new;
+    my $self  = $class->next::method();
 
     my ($config) = @_;
 
@@ -80,11 +81,11 @@ sub new {
     # Log::Handler->new will fail if there's no filename in the conf.  But let's
     # try it anyway to convince the user.
 
-    $self->handler(Log::Handler->new(
+    $self->handler(Log::Handler->new( file => {
 	minlevel => 0,
 	maxlevel => 7,
 	%$config,
-    ));
+    } ));
     return $self;
 }
 
@@ -100,10 +101,11 @@ __END__
 Catalyst configuration (e. g. in YAML format):
 
     Log::Handler:
-        filename: /var/log/myapp.log
-        fileopen: 1
-        mode: append
-        newline: 1
+        file:
+            filename: /var/log/myapp.log
+            fileopen: 1
+            mode: append
+            newline: 1
 
 To log a message:
 
@@ -139,10 +141,10 @@ levels.
 To log a message with a level that is no common Catalyst log level, you can
 use the handler method (see SYNOPSIS).
 
-=head2 is_debug, is_info, ...
+=head2 is_debug, is_info, is_warn, is_error, is_fatal
 
-These methods map to the L<Log::Handler> methods would_log_debug,
-would_log_info, ...
+These methods map to the L<Log::Handler> methods is_debug, is_info, is_warning,
+is_error, is_emergency, respectively.
 
 =head2 handler
 
@@ -172,7 +174,7 @@ of your mails, in order to make sure they won't get lost in all the spam.
 
 =head1 COPYRIGHT
 
-Copyright (C) 2007 Christoph Bussenius.
+Copyright (C) 2007,2010 Christoph Bussenius.
 
 This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.

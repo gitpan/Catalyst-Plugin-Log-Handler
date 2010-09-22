@@ -2,7 +2,7 @@ NAME
     Catalyst::Plugin::Log::Handler - Catalyst Plugin for Log::Handler
 
 VERSION
-    Version 0.07
+    Version 0.07_01 (developer release)
 
 SYNOPSIS
         use Catalyst qw(Log::Handler);
@@ -10,10 +10,11 @@ SYNOPSIS
     Catalyst configuration (e. g. in YAML format):
 
         Log::Handler:
-            filename: /var/log/myapp.log
-            fileopen: 1
-            mode: append
-            newline: 1
+            file:
+                filename: /var/log/myapp.log
+                fileopen: 1
+                mode: append
+                newline: 1
 
     To log a message:
 
@@ -47,9 +48,9 @@ METHODS
     To log a message with a level that is no common Catalyst log level, you
     can use the handler method (see SYNOPSIS).
 
-  is_debug, is_info, ...
-    These methods map to the Log::Handler methods would_log_debug,
-    would_log_info, ...
+  is_debug, is_info, is_warn, is_error, is_fatal
+    These methods map to the Log::Handler methods is_debug, is_info,
+    is_warning, is_error, is_emergency, respectively.
 
   handler
     Returns the Log::Handler object.
@@ -75,7 +76,7 @@ AUTHOR
     your mails, in order to make sure they won't get lost in all the spam.
 
 COPYRIGHT
-    Copyright (C) 2007 Christoph Bussenius.
+    Copyright (C) 2007,2010 Christoph Bussenius.
 
     This program is free software; you can redistribute it and/or modify it
     under the same terms as Perl itself.

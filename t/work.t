@@ -8,56 +8,39 @@ use warnings;
 use Test::More;
 use constant LEVELS => qw(debug info warn error fatal);
 
-{
-    local $@;
-    eval 'use 5.6.0; 1' or plan skip_all => "I don't think that this works on your perl version.";
-}
-
-$^O =~ /MSWin32/i and plan skip_all => 'This test requires an operating system.';
-
 
 {
     package Catalyst::Plugin::Log::Handler::Test;
-    use base qw(Class::Accessor::Fast Catalyst::Plugin::Log::Handler);
+    use base qw(Catalyst::Plugin::Log::Handler Class::Accessor::Fast);
 
     __PACKAGE__->mk_accessors(qw(log config));
+
 }
 
-my $c = Catalyst::Plugin::Log::Handler::Test->new({
-        config => {
-            'Log::Handler' => {
-                filename => \*STDOUT,
-                mode => 'append',
-                newline => 1,
-            },
-        },
-    });
+my $c = Catalyst::Plugin::Log::Handler::Test->new();
+
+my $testfn = "t/log-handler-test-$$-" . time();
+END { unlink($testfn) if defined ($testfn); }
+
+$c->config( {
+   'Log::Handler' => {
+      filename => $testfn,
+      mode => 'append',
+      newline => 1,
+   },
+});
 
 $c->setup();
 
-
-my $pipe;
-
-my $pid = open $pipe, '-|';
-defined $pid or die $!;
-
-unless ($pid) {
-    require Catalyst::Plugin::Log::Handler;
-
-    for my $level (LEVELS) {
-        $c->log->$level("This is a $level test message.");
-    }
-    $c->log->handler->crit('This is a crit test message.');
-    
-    exit(0);
+for my $level (LEVELS) {
+   $c->log->$level("This is a $level test message.");
 }
 
-my $logtext = do {local $/; <$pipe>};
-defined $logtext or die $!;
+$c->log->handler->crit('This is a crit test message.');
 
-print "This was logged: (\n$logtext)\n";
-
-close $pipe or die "Child exit status: $?\n";
+my $logtext = do {
+    local $/; open FH, '<', $testfn or die "open: $testfn: $!"; <FH> };
+defined $logtext or die "read: $testfn: $!";
 
 my $numberlevels = () = LEVELS;
 
