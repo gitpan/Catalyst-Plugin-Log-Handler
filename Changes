@@ -1,7 +1,13 @@
 Revision history for Catalyst-Plugin-Log-Handler
 
+0.08    Thu Sep 23 14:21:15 CEST 2010
+        Fix dependencies:
+          * NEXT -> MRO::Compat
+          * Current version for Log::Handler.
+
 0.07_01 Wed Sep 22 17:37:15 CEST 2010
         Switch from "NEXT" to "next" as required by current Catalyst versions.
+        Adopt API changes for Log::Handler.
         Thanks to Peter Flanigan for providing the patch.
 
 0.07    Fri Jul 13 02:39:40 CEST 2007

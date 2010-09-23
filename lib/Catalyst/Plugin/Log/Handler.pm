@@ -8,11 +8,11 @@ Catalyst::Plugin::Log::Handler - Catalyst Plugin for Log::Handler
 
 =head1 VERSION
 
-Version 0.07_01 (developer release)
+Version 0.08
 
 =cut
 
-our $VERSION = '0.07_01';
+our $VERSION = '0.08';
 
 use MRO::Compat;
 

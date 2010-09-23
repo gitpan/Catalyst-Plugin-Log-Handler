@@ -6,8 +6,8 @@ WriteMakefile
           'VERSION_FROM' => 'lib/Catalyst/Plugin/Log/Handler.pm',
           'PREREQ_PM' => {
                            'Class::Accessor' => 0,
-                           'Log::Handler' => '0.33',
-                           'NEXT' => 0,
+                           'Log::Handler' => '0.65',
+                           'MRO::Compat' => 0,
                            'Test::More' => 0
                          },
           'INSTALLDIRS' => 'site',
